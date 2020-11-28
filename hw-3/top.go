@@ -16,9 +16,11 @@ func Top(text string) []string  {
 	top := make(map[string]int)
 
 	space := regexp.MustCompile(`\s+`)
-	words := strings.Split(space.ReplaceAllString(text, " "), " ")
+	words := strings.Split(space.ReplaceAllString(strings.ToLower(text), " "), " ")
 
 	for _, word := range words {
+		word = space.ReplaceAllString(word, " ")
+		word = strings.Trim(word, "!.;\":-,\n\t")
 
 		if word == "" {
 			continue
