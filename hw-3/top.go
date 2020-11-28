@@ -26,10 +26,6 @@ func Top(text string) []string  {
 			continue
 		}
 
-		if _, exist := top[word]; exist == false {
-			top[word] = 0
-		}
-
 		top[word]++
 	}
 
