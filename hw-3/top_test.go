@@ -6,9 +6,6 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-// Change to true if needed
-var taskWithAsteriskIsCompleted = true
-
 var text = `Как видите, он  спускается  по  лестнице  вслед  за  своим
 	другом   Кристофером   Робином,   головой   вниз,  пересчитывая
 	ступеньки собственным затылком:  бум-бум-бум.  Другого  способа
@@ -46,16 +43,18 @@ var text = `Как видите, он  спускается  по  лестни�
 func TestTop10(t *testing.T) {
 	t.Run("no words in empty string", func(t *testing.T) {
 		require.Len(t, Top(""), 0)
+		require.Len(t, Top(" "), 0)
+		require.Len(t, Top(" \t "), 0)
 	})
 
-	t.Run("positive test", func(t *testing.T) {
-		if taskWithAsteriskIsCompleted {
-			expected := []string{"он", "а", "и", "что", "ты", "не", "если", "то", "его", "кристофер", "робин", "в"}
-			require.Subset(t, expected, Top(text))
-		} else {
-			expected := []string{"он", "и", "а", "что", "ты", "не", "если", "-", "то", "Кристофер"}
-			require.ElementsMatch(t, expected, Top(text))
-		}
+	t.Run("homework test", func(t *testing.T) {
+		expected := []string{"он", "а", "и", "что", "ты", "не", "если", "то", "его", "кристофер", "робин", "в"}
+		require.Subset(t, expected, Top(text))
+	})
+
+	t.Run("extra test", func(t *testing.T) {
+		expected := []string{"второй", "первый", "третий"}
+		require.Subset(t, expected, Top("Первый второй Третий Второй"))
 	})
 }
 

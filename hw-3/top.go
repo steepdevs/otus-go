@@ -18,8 +18,11 @@ func Top(text string) []string  {
 	space := regexp.MustCompile(`\s+`)
 	words := strings.Split(space.ReplaceAllString(strings.ToLower(text), " "), " ")
 
+	if len(words) == 0 {
+		return result
+	}
+
 	for _, word := range words {
-		word = space.ReplaceAllString(word, " ")
 		word = strings.Trim(word, "!.;\":-,\n\t")
 
 		if word == "" {
@@ -27,6 +30,10 @@ func Top(text string) []string  {
 		}
 
 		top[word]++
+	}
+
+	if len(top) == 0 {
+		return result
 	}
 
 	for word, _ := range top {
@@ -37,5 +44,11 @@ func Top(text string) []string  {
 		return top[result[i]] > top[result[j]]
 	})
 
-	return result[:10]
+	limit := 10
+
+	if len(result) < limit {
+		limit = len(result)
+	}
+
+	return result[:limit]
 }
